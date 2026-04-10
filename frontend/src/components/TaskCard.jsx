@@ -14,7 +14,6 @@ export default function TaskCard({
   showEdit = true, // ✅ control edit button
 }) {
   const isCreator = task.createdBy._id === userId;
-  const isAssignee = task.assignedTo?._id === userId;
 
   const handleDelete = async () => {
     if (!window.confirm("Delete this task?")) return;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../api/axios";
 import { Calendar } from "lucide-react";
 export default function TaskModal({ task, userId, onClose, onSaved }) {
-  const isCreator = !task || task.createdBy._id === userId;
+  const isCreator = !task || task?.createdBy?._id === userId;
   const isAssignee = task?.assignedTo?._id === userId;
   const isPersonal = task && !task.assignedTo;
 
@@ -17,15 +17,14 @@ export default function TaskModal({ task, userId, onClose, onSaved }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Load users for assign dropdown (only on create or when creator)
-    if (!task || isCreator) {
-      api
-        .get("/tasks/users")
-        .then((r) => setUsers(r.data))
-        .catch(() => {});
-    }
-  }, []);
+ useEffect(() => {
+   if (!task || isCreator) {
+     api
+       .get("/tasks/users")
+       .then((r) => setUsers(r.data))
+       .catch(() => {});
+   }
+ }, [task, isCreator]);
 
   const canEdit = (field) => {
     if (!task) return true; // creating — all editable

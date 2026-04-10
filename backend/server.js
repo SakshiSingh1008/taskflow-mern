@@ -28,3 +28,7 @@ mongoose.connect(process.env.MONGO_URI)
     console.error("MongoDB connection failed:", err);
     process.exit(1);
   });
+  app.use(cors({
+  origin: "https://taskflow-mern-je1j-kappa.vercel.app",
+  credentials: true
+}));
